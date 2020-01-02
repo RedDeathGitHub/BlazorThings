@@ -1,0 +1,31 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">BlazorRevealed</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <NavMenuItem Href="" Text="Home" Match="NavLinkMatch.All" />
+        <NavMenuItem Href="counter" Text="Counter" />
+        <NavMenuItem Href="fetch-data" Text="Fetch data" />
+        <NavMenuItem Href="claps" Text="Claps" />
+        <NavMenuItem Href="form" Text="Form" />
+        <NavMenuItem Href="bind" Text="Bind" />
+        <NavMenuItem Href="lifecycle" Text="Lifecycle" />
+        <NavMenuItem Href="notifications" Text="Notifications" />
+        <NavMenuItem Href="test" Text="Test" />
+    </ul>
+</div>
+
+@code {
+    bool collapseNavMenu = true;
+
+    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

@@ -1,0 +1,11 @@
+﻿@page "/bind"
+@inherits BindPageBase
+@using BlazorRevealed.Client.Components.Interactive
+
+<h1>Parent year is @Year</h1>
+
+<p>Child year will be shown below.</p>
+
+<YearControl @bind-Year="Year" />
+
+<button class="btn btn-primary" @onclick="ChangeTheYear">Change Year</button>

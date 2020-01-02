@@ -1,0 +1,30 @@
+﻿@page "/claps"
+@inherits ClapSummaryPageBase
+
+<h1>Summary of your claps</h1>
+
+See which pages you like the most!
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Page</th>
+        <th>Claps</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Pages)
+    {
+        <tr>
+            <td>
+                <NavLink class="nav-link" href="@item.Link">
+                   @item.Name
+                </NavLink>
+            </td>
+            <td>@item.Claps</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p>Also, latest weather data is from: @WeatherDate</p>

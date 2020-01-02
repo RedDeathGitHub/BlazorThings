@@ -1,0 +1,11 @@
+﻿@page "/notifications"
+@inherits NotificationPageBase
+
+@if(LastNotification.key == null)
+{
+    <p>Waiting for update...</p>
+}
+else
+{
+    <p>Last update: @LastNotification.key = @LastNotification.value</p>
+}

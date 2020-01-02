@@ -1,0 +1,10 @@
+﻿@inherits CounterPageBase
+@page "/counter"
+@using BlazorRevealed.Client.Components.Interactive
+
+<Feedback maxlength="10"
+          placeholder="Input placeholder text"
+          required="required"
+          size="50" />
+
+<ClapCounter Claps="@Claps" AddClap="@AddClapHandler" />

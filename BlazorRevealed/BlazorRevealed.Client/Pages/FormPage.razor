@@ -1,0 +1,21 @@
+﻿@page "/form"
+@inherits FormPageBase
+@using BlazorRevealed.Client.Components.Interactive
+
+<h1>Weather forecast</h1>
+
+<p>Some forms controls to play with.</p>
+
+<Password @bind-Password="Password" @ref="PasswordComponent" />
+<p>Parent password value: @Password</p>
+<button class="btn btn-primary" @onclick="SetPassword">Add X to password</button>
+
+<input type="checkbox" class="form-check-input" id="italicsCheck" @bind="Selected" />
+
+<input @bind-value="Text" @bind-value:event="oninput" />
+
+<input @bind="Number" />
+
+<p>Selected: @Selected</p>
+<p>Text: @Text</p>
+<p>Number: @Number</p>
