@@ -26,7 +26,7 @@ namespace BlazorRevealed.Client
         {
             Console.WriteLine("Start Initialize");
             var rootInitializer = host.Services.GetService<RootInitializer>();
-            
+
             if (rootInitializer == null)
             {
                 throw new InvalidOperationException("The RootInitializer service isn't registered.");

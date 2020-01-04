@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components;
 
-namespace BlazorRevealed.Client.Components.Interactive
+namespace BlazorRevealed.Client.Components
 {
     public class YearControlBase : ComponentBase
     {

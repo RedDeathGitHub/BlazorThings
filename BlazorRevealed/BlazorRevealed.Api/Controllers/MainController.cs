@@ -9,23 +9,23 @@ using Microsoft.Extensions.Logging;
 namespace BlazorRevealed.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class WeatherController : ControllerBase
+    [Route("api")]
+    public class MainController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherController> logger;
+        private readonly ILogger<MainController> logger;
 
-        public WeatherController(ILogger<WeatherController> logger)
+        public MainController(ILogger<MainController> logger)
         {
             this.logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecastDto> Get()
+        [HttpGet("weather")]
+        public IEnumerable<WeatherForecastDto> GetWeather()
         {
             var rng = new Random();
             var data = Enumerable.Range(1, 5).Select(index => new WeatherForecastDto
@@ -37,6 +37,16 @@ namespace BlazorRevealed.Api.Controllers
             .ToArray();
 
             return data;
+        }
+
+        [HttpGet("configuration")]
+        public Configuration GetConfiguration()
+        {
+            return new Configuration
+            {
+                NotificationDelay = 5000,
+                NotificationPeriod = 2000
+            };
         }
     }
 }

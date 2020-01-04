@@ -12,7 +12,6 @@ namespace BlazorRevealed.Client
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSingleton<ApiClient>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

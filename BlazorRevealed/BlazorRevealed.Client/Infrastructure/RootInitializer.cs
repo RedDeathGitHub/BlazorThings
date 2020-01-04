@@ -15,16 +15,6 @@ namespace BlazorRevealed.Client.Infrastructure
         private readonly ApiClient apiClient;
         private readonly State state;
 
-        //public RootInitializer(INotificationService notificationService)
-        //{
-        //    Console.WriteLine("RootInitializer.Start");
-        //    this.notificationService = notificationService;
-
-        //    new HttpClient();
-        //    //this.apiClient = apiClient;
-        //    //this.state = state;
-        //}
-
         public RootInitializer(INotificationService notificationService, ApiClient apiClient, State state)
         {
             Console.WriteLine("RootInitializer.Start");
@@ -46,14 +36,24 @@ namespace BlazorRevealed.Client.Infrastructure
         private async Task<Configuration> GetConfiguration()
         {
             Console.WriteLine("RootInitializer.GetConfiguration");
-            //var configuration = await apiClient.GetJsonAsync<Configuration>("configuration");
-            //return configuration ?? new Configuration();
 
-            return  new Configuration()
-            {
-                NotificationDelay = 5000,
-                NotificationPeriod = 2000
-            };
+            // TODO: in the next version this will work!
+            // https://github.com/aspnet/AspNetCore/issues/18104
+
+            //var configuration = await apiClient.GetJsonAsync<Configuration>("configuration");
+
+            // TODO: get footer from API, add to state, display as MarkupString (CMS simulation)
+
+            //if (configuration.NotificationDelay <= 0)
+            //{
+            return new Configuration
+                {
+                    NotificationDelay = 5000,
+                    NotificationPeriod = 2000
+                };
+            //}
+
+            //return configuration;
         }
     }
 }
