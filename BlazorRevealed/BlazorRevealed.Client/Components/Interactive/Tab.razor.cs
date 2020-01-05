@@ -9,7 +9,7 @@ namespace BlazorRevealed.Client.Components.Interactive
     public class TabBase : ComponentBase, ITab
     {
         [CascadingParameter]
-        public TabSet Container { get; set; }
+        public ITabContainer Container { get; set; }
 
         [Parameter]
         public string Title { get; set; }

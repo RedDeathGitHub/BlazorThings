@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Components.Interactive
 {
-    public class TabSetBase : ComponentBase
+    public class TabSetBase : ComponentBase, ITabContainer
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }
