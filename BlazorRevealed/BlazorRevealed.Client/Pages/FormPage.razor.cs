@@ -2,26 +2,31 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using BlazorRevealed.Client.Components.Interactive;
+using BlazorRevealed.Client.Data.Models;
 using BlazorRevealed.Client.Data.State;
-using BlazorRevealed.Client.Services;
-using BlazorRevealed.Client.Utility.HttpClients;
-using BlazorRevealed.Shared.Dto;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
     public class FormPageBase : ComponentBase
     {
+        public FormPageBase()
+        {
+            Person = new Person();
+        }
+
         [Inject]
-        public State State { get; set; }
+        protected State State { get; set; }
 
-        public bool Selected { get; set; }
+        protected Person Person { get; set; }
 
-        public string Text { get; set; } = "Type here";
+        protected bool Selected { get; set; }
 
-        public double Number { get; set; } = 10;
+        protected string Text { get; set; } = "Type here";
 
-        public string Password { get; set; }
+        protected double Number { get; set; } = 10;
+
+        protected string Password { get; set; }
 
         protected Password PasswordComponent { get; set; }
 
@@ -30,17 +35,22 @@ namespace BlazorRevealed.Client.Pages
             Password += "X";
         }
 
-        protected override void OnAfterRender(bool firstRender)
-        {
-            base.OnAfterRender(firstRender);
+        //protected override void OnAfterRender(bool firstRender)
+        //{
+        //    base.OnAfterRender(firstRender);
 
-            var value = PasswordComponent.Password + "R";
-            if (firstRender)
-            {
-                value += "first";
-            }
+        //    var value = PasswordComponent.Password + "R";
+        //    if (firstRender)
+        //    {
+        //        value += "first";
+        //    }
                         
-            Password = value;
+        //    Password = value;
+        //}
+
+        protected void HandleValidSubmit()
+        {
+            Console.WriteLine("OnValidSubmit");
         }
     }
 }

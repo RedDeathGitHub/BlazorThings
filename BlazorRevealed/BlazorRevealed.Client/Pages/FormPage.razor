@@ -5,16 +5,51 @@
 
 <p>Some forms controls to play with.</p>
 
-<Password @bind-Password="Password" @ref="PasswordComponent" />
-<p>Parent password value: @Password</p>
-<button class="btn btn-primary" @onclick="SetPassword">Add X to password</button>
+<EditForm Model="@Person" OnValidSubmit="@HandleValidSubmit">
+    <ObjectGraphDataAnnotationsValidator />
+    <ValidationSummary />
 
-<input type="checkbox" class="form-check-input" id="italicsCheck" @bind="Selected" />
+    <div class="form-group">
+        <label for="name">Name: </label>
+        <InputText Id="name" Class="form-control" @bind-Value="@Person.Name"></InputText>
+        <ValidationMessage For="@(() => Person.Name)" />
+    </div>
+    <div class="form-group">
+        <label for="description">Description: </label>
+        <InputTextArea Id="description" Class="form-control" @bind-Value="@Person.Description"></InputTextArea>
+        <ValidationMessage For="@(() => Person.Description)" />
+    </div>
+    <div class="form-group">
+        <label for="age">Age: </label>
+        <InputNumber Id="age" Class="form-control" @bind-Value="@Person.Age"></InputNumber>
+        <ValidationMessage For="@(() => Person.Age)" />
+    </div>
+    <div class="form-group">
+        <label for="street">Street: </label>
+        <InputText Id="street" Class="form-control" @bind-Value="@Person.Address.Street"></InputText>
+        <ValidationMessage For="@(() => Person.Address.Street)" />
+    </div>
+    <div class="form-group">
+        <label for="postNumber">Post Number: </label>
+        <InputText Id="postNumber" Class="form-control" @bind-Value="@Person.Address.PostNumber"></InputText>
+        <ValidationMessage For="@(() => Person.Address.PostNumber)" />
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</EditForm>
 
-<input @bind-value="Text" @bind-value:event="oninput" />
 
-<input @bind="Number" />
+@*<Password @bind-Password="Password" @ref="PasswordComponent" />
+    <p>Parent password value: @Password</p>
+    <button class="btn btn-primary" @onclick="SetPassword">Add X to password</button>
 
-<p>Selected: @Selected</p>
-<p>Text: @Text</p>
-<p>Number: @Number</p>
+    <input type="checkbox" class="form-check-input" id="italicsCheck" @bind="Selected" />
+
+    <input @bind-value="Text" @bind-value:event="oninput" />
+
+    <input @bind="Number" />*@
+
+@*<p>Selected: @Selected</p>
+    <p>Text: @Text</p>
+    <p>Number: @Number</p>*@

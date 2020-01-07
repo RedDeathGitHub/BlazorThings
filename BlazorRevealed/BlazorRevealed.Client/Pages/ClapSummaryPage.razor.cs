@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BlazorRevealed.Client.Data;
+using BlazorRevealed.Client.Data.Models;
 using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Services;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace BlazorRevealed.Client.Pages
     public class ClapSummaryPageBase : ComponentBase
     {
         [Inject]
-        public State State { get; set; }
+        protected State State { get; set; }
 
         [Inject]
         public ITestService TestService { get; set; }

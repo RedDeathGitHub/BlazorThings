@@ -1,4 +1,4 @@
-﻿namespace BlazorRevealed.Client.Data
+﻿namespace BlazorRevealed.Client.Data.Models
 {
     public class PageWithClaps
     {
