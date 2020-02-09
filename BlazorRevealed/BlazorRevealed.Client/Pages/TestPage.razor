@@ -5,6 +5,24 @@
 
 <h2>@message</h2>
 
+@if (JsRuntime == null)
+{
+    <p>Waiting for JsRuntime</p>
+}
+else
+{
+    <p>JsRuntime loaded</p>
+}
+
+@if (NavigationManager == null)
+{
+    <p>Waiting for NavigationManager</p>
+}
+else
+{
+    <p>NavigationManager loaded</p>
+}
+
 @for (var i = 1; i < 4; i++)
 {
     var buttonNumber = i;

@@ -5,6 +5,6 @@ namespace BlazorRevealed.Client.Pages
     public class RoutingPageBase : ComponentBase
     {
         [Parameter]
-        public string Parameter { get; set; }
+        public int Parameter { get; set; }
     }
 }
