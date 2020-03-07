@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlazorRevealed.Client.Services
+namespace BlazorRevealed.Client.Services.I
 {
     public interface INotificationService
     {

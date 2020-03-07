@@ -7,6 +7,7 @@ using Autofac;
 using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Services;
 using BlazorRevealed.Client.Utility.HttpClients;
+using Microsoft.AspNetCore.Components.Authorization;
 using Module = Autofac.Module;
 
 namespace BlazorRevealed.Client.Infrastructure
@@ -24,6 +25,7 @@ namespace BlazorRevealed.Client.Infrastructure
             builder.RegisterType<State>().SingleInstance();
             builder.RegisterType<ApiClient>().SingleInstance();
             builder.RegisterType<RootInitializer>().SingleInstance();
+            builder.RegisterType<ApiAuthenticationStateProvider>().As<AuthenticationStateProvider>().SingleInstance();
         }
     }
 }

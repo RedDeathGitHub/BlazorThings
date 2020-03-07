@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace BlazorRevealed.Shared.Dto
+namespace BlazorRevealed.Shared.Models
 {
-    public class WeatherForecastDto
+    public class WeatherForecast
     {
         public DateTime Date { get; set; }
 

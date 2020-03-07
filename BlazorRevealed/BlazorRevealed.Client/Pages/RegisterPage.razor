@@ -1,0 +1,41 @@
+﻿@page "/register"
+@inherits RegisterPageBase
+
+<h1>Register</h1>
+
+@if (ShowErrors)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var error in Errors)
+        {
+            <p>@error</p>
+        }
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Please enter your details</h5>
+        <EditForm Model="Registration" OnValidSubmit="HandleRegistration">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <InputText Id="email" class="form-control" @bind-Value="Registration.Email" />
+                <ValidationMessage For="@(() => Registration.Email)" />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <InputText Id="password" type="password" class="form-control" @bind-Value="Registration.Password" />
+                <ValidationMessage For="@(() => Registration.Password)" />
+            </div>
+            <div class="form-group">
+                <label for="password">Confirm Password</label>
+                <InputText Id="password" type="password" class="form-control" @bind-Value="Registration.ConfirmPassword" />
+                <ValidationMessage For="@(() => Registration.ConfirmPassword)" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </EditForm>
+    </div>
+</div>

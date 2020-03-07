@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using Autofac;
+using Blazored.LocalStorage;
 using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Utility.HttpClients;
 using Microsoft.AspNetCore.Components.Builder;
@@ -12,6 +13,8 @@ namespace BlazorRevealed.Client
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddBlazoredLocalStorage();
+            services.AddAuthorizationCore();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

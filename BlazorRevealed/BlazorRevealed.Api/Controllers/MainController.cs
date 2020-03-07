@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BlazorRevealed.Shared.Dto;
+using BlazorRevealed.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,11 +25,12 @@ namespace BlazorRevealed.Api.Controllers
             this.logger = logger;
         }
 
+        [Authorize]
         [HttpGet("weather")]
-        public IEnumerable<WeatherForecastDto> GetWeather()
+        public IEnumerable<WeatherForecast> GetWeather()
         {
             var rng = new Random();
-            var data = Enumerable.Range(1, 5).Select(index => new WeatherForecastDto
+            var data = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),

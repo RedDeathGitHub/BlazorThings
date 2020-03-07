@@ -1,4 +1,4 @@
-﻿using BlazorRevealed.Shared.Dto;
+﻿using BlazorRevealed.Shared.Models;
 
 namespace BlazorRevealed.Client.Data.State
 {

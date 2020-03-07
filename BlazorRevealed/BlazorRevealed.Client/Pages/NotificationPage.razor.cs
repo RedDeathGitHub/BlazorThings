@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Services;
+using BlazorRevealed.Client.Services.I;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages

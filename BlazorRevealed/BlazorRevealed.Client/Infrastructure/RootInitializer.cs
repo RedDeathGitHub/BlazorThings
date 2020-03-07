@@ -3,8 +3,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Services;
+using BlazorRevealed.Client.Services.I;
 using BlazorRevealed.Client.Utility.HttpClients;
-using BlazorRevealed.Shared.Dto;
+using BlazorRevealed.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Infrastructure

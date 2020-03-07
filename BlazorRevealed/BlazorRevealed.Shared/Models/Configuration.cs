@@ -1,4 +1,4 @@
-﻿namespace BlazorRevealed.Shared.Dto
+﻿namespace BlazorRevealed.Shared.Models
 {
     public class Configuration
     {

@@ -5,7 +5,6 @@ using BlazorRevealed.Client.Components.Interactive;
 using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Services;
 using BlazorRevealed.Client.Utility.HttpClients;
-using BlazorRevealed.Shared.Dto;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
