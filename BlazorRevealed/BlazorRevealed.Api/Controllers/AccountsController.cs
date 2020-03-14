@@ -22,7 +22,7 @@ namespace BlazorRevealed.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Registration registration)
+        public async Task<IActionResult> Register([FromBody]Registration registration)
         {
             var newUser = new IdentityUser { UserName = registration.Email, Email = registration.Email };
 

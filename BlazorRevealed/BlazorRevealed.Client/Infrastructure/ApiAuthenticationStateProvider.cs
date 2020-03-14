@@ -32,8 +32,14 @@ namespace BlazorRevealed.Client.Infrastructure
             }
 
             apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
+            var claimObject = ParseClaimsFromJwt(savedToken);
+            if (DateTime.Now >= claimObject.Expired)
+            {
+                MarkUserAsLoggedOut();
+                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            }
 
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claimObject.Claims, "serverauth")));
         }
 
         public void MarkUserAsAuthenticated(string email)
@@ -50,12 +56,24 @@ namespace BlazorRevealed.Client.Infrastructure
             NotifyAuthenticationStateChanged(authState);
         }
 
-        private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
+        private JwtToken ParseClaimsFromJwt(string tokenValue)
         {
-            var claims = new List<Claim>();
-            var payload = jwt.Split('.')[1];
+            var token = new JwtToken();
+            var payload = tokenValue.Split('.')[1];
             var jsonBytes = ParseBase64WithoutPadding(payload);
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
+
+            foreach (var item in keyValuePairs)
+            {
+                Console.WriteLine($"Key is {item.Key} Value is {item.Value}");
+            }
+
+            var seconds = Convert.ToInt32(keyValuePairs["exp"].ToString());
+            var date = DateTimeOffset.FromUnixTimeSeconds(seconds).UtcDateTime;
+
+            Console.WriteLine($"Expire date: {date}");
+
+            token.Expired = date;
 
             keyValuePairs.TryGetValue(ClaimTypes.Role, out object roles);
 
@@ -67,20 +85,20 @@ namespace BlazorRevealed.Client.Infrastructure
 
                     foreach (var parsedRole in parsedRoles)
                     {
-                        claims.Add(new Claim(ClaimTypes.Role, parsedRole));
+                        token.Claims.Add(new Claim(ClaimTypes.Role, parsedRole));
                     }
                 }
                 else
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, roles.ToString()));
+                    token.Claims.Add(new Claim(ClaimTypes.Role, roles.ToString()));
                 }
 
                 keyValuePairs.Remove(ClaimTypes.Role);
             }
 
-            claims.AddRange(keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString())));
+            token.Claims.AddRange(keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString())));
 
-            return claims;
+            return token;
         }
 
         private byte[] ParseBase64WithoutPadding(string base64)
@@ -92,5 +110,11 @@ namespace BlazorRevealed.Client.Infrastructure
             }
             return Convert.FromBase64String(base64);
         }
+    }
+
+    class JwtToken
+    {
+        public List<Claim> Claims { get; set; } = new List<Claim>();
+        public DateTime Expired { get; set; }
     }
 }
