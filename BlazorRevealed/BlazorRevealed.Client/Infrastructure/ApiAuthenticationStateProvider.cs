@@ -22,24 +22,34 @@ namespace BlazorRevealed.Client.Infrastructure
             this.apiClient = apiClient;
             _localStorage = localStorage;
         }
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var savedToken = await _localStorage.GetItemAsync<string>("authToken");
+            apiClient.DefaultRequestHeaders.Authorization = null;
 
-            if (string.IsNullOrWhiteSpace(savedToken))
+            var tokenValue = await _localStorage.GetItemAsync<string>("authToken");
+
+            if (string.IsNullOrWhiteSpace(tokenValue))
             {
-                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+                return LogOut();
             }
 
-            apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
-            var claimObject = ParseClaimsFromJwt(savedToken);
-            if (DateTime.Now >= claimObject.Expired)
+            var token = ParseJwtToken(tokenValue);
+
+            if (DateTime.UtcNow >= token.Expires)
             {
-                MarkUserAsLoggedOut();
-                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+                return LogOut();
             }
 
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claimObject.Claims, "serverauth")));
+            apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", tokenValue);
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(token.Claims, "serverauth")));
+        }
+
+        private AuthenticationState LogOut()
+        {
+            var unauthenticatedUser = new ClaimsPrincipal(new ClaimsIdentity());
+            MarkUserAsLoggedOut();
+            return new AuthenticationState(unauthenticatedUser);
         }
 
         public void MarkUserAsAuthenticated(string email)
@@ -56,7 +66,7 @@ namespace BlazorRevealed.Client.Infrastructure
             NotifyAuthenticationStateChanged(authState);
         }
 
-        private JwtToken ParseClaimsFromJwt(string tokenValue)
+        private JwtToken ParseJwtToken(string tokenValue)
         {
             var token = new JwtToken();
             var payload = tokenValue.Split('.')[1];
@@ -73,7 +83,7 @@ namespace BlazorRevealed.Client.Infrastructure
 
             Console.WriteLine($"Expire date: {date}");
 
-            token.Expired = date;
+            token.Expires = date;
 
             keyValuePairs.TryGetValue(ClaimTypes.Role, out object roles);
 
@@ -115,6 +125,6 @@ namespace BlazorRevealed.Client.Infrastructure
     class JwtToken
     {
         public List<Claim> Claims { get; set; } = new List<Claim>();
-        public DateTime Expired { get; set; }
+        public DateTime Expires { get; set; }
     }
 }
