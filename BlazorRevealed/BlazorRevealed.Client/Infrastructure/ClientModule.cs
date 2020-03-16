@@ -25,7 +25,10 @@ namespace BlazorRevealed.Client.Infrastructure
             builder.RegisterType<State>().SingleInstance();
             builder.RegisterType<ApiClient>().SingleInstance();
             builder.RegisterType<RootInitializer>().SingleInstance();
-            builder.RegisterType<ApiAuthenticationStateProvider>().As<AuthenticationStateProvider>().SingleInstance();
+            builder.RegisterType<ApiAuthenticationStateProvider>()
+                .As<AuthenticationStateProvider>()
+                .AsSelf()
+                .SingleInstance();
         }
     }
 }

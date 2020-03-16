@@ -4,23 +4,23 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using BlazorRevealed.Client.Constants;
 using BlazorRevealed.Client.Infrastructure;
 using BlazorRevealed.Client.Services.I;
 using BlazorRevealed.Client.Utility.HttpClients;
 using BlazorRevealed.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorRevealed.Client.Services
 {
     public class AuthService : IAuthService
     {
         private readonly ApiClient apiClient;
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly ApiAuthenticationStateProvider authenticationStateProvider;
         private readonly ILocalStorageService localStorage;
 
         public AuthService(ApiClient apiClient,
-            AuthenticationStateProvider authenticationStateProvider,
+            ApiAuthenticationStateProvider authenticationStateProvider,
             ILocalStorageService localStorage)
         {
             this.apiClient = apiClient;
@@ -48,19 +48,21 @@ namespace BlazorRevealed.Client.Services
                 return loginResult;
             }
 
-            await localStorage.SetItemAsync("authToken", loginResult.Token);
-            ((ApiAuthenticationStateProvider) authenticationStateProvider).MarkUserAsAuthenticated(login.Email);
-            apiClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("bearer", loginResult.Token);
+            await localStorage.SetItemAsync(Keys.AuthToken, loginResult.Token);
+            await authenticationStateProvider.UpdateUser();
 
             return loginResult;
         }
 
         public async Task Logout()
         {
-            await localStorage.RemoveItemAsync("authToken");
-            ((ApiAuthenticationStateProvider) authenticationStateProvider).MarkUserAsLoggedOut();
-            apiClient.DefaultRequestHeaders.Authorization = null;
+            await localStorage.RemoveItemAsync(Keys.AuthToken);
+            await authenticationStateProvider.UpdateUser();
+        }
+
+        public async Task Update()
+        {
+            await authenticationStateProvider.UpdateUser();
         }
     }
 }

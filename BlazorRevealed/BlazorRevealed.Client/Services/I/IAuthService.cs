@@ -8,5 +8,6 @@ namespace BlazorRevealed.Client.Services.I
         Task<LoginResult> Login(Login login);
         Task Logout();
         Task<RegistrationResult> Register(Registration registration);
+        Task Update();
     }
 }

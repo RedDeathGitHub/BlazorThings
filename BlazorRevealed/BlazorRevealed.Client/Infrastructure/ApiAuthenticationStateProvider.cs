@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using BlazorRevealed.Client.Constants;
 using BlazorRevealed.Client.Utility.HttpClients;
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -15,55 +16,49 @@ namespace BlazorRevealed.Client.Infrastructure
     public class ApiAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly ApiClient apiClient;
-        private readonly ILocalStorageService _localStorage;
+        private readonly ILocalStorageService localStorage;
+        readonly ClaimsPrincipal AnonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
 
         public ApiAuthenticationStateProvider(ApiClient apiClient, ILocalStorageService localStorage)
         {
             this.apiClient = apiClient;
-            _localStorage = localStorage;
+            this.localStorage = localStorage;
         }
-
+        
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            apiClient.DefaultRequestHeaders.Authorization = null;
+            var user = await GetUser();
+            return new AuthenticationState(user);
+        }
 
-            var tokenValue = await _localStorage.GetItemAsync<string>("authToken");
+        public async Task UpdateUser()
+        {
+            var user = await GetUser();
+
+            var authState = Task.FromResult(new AuthenticationState(user));
+            NotifyAuthenticationStateChanged(authState);
+        }
+
+        private async Task<ClaimsPrincipal> GetUser()
+        {
+            apiClient.DefaultRequestHeaders.Authorization = null;
+            var tokenValue = await localStorage.GetItemAsync<string>(Keys.AuthToken);
 
             if (string.IsNullOrWhiteSpace(tokenValue))
             {
-                return LogOut();
+                return AnonymousUser;
             }
 
             var token = ParseJwtToken(tokenValue);
 
             if (DateTime.UtcNow >= token.Expires)
             {
-                return LogOut();
+                await localStorage.RemoveItemAsync(Keys.AuthToken);
+                return AnonymousUser;
             }
 
             apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", tokenValue);
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(token.Claims, "serverauth")));
-        }
-
-        private AuthenticationState LogOut()
-        {
-            var unauthenticatedUser = new ClaimsPrincipal(new ClaimsIdentity());
-            MarkUserAsLoggedOut();
-            return new AuthenticationState(unauthenticatedUser);
-        }
-
-        public void MarkUserAsAuthenticated(string email)
-        {
-            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, email) }, "apiauth"));
-            var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
-            NotifyAuthenticationStateChanged(authState);
-        }
-
-        public void MarkUserAsLoggedOut()
-        {
-            var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
-            var authState = Task.FromResult(new AuthenticationState(anonymousUser));
-            NotifyAuthenticationStateChanged(authState);
+            return new ClaimsPrincipal(new ClaimsIdentity(token.Claims, "serverauth"));
         }
 
         private JwtToken ParseJwtToken(string tokenValue)
