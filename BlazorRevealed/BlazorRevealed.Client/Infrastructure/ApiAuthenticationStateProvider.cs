@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using BlazorRevealed.Client.Constants;
 using BlazorRevealed.Client.Utility.HttpClients;
+using FluentScheduler;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorRevealed.Client.Infrastructure
@@ -58,7 +59,33 @@ namespace BlazorRevealed.Client.Infrastructure
             }
 
             apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", tokenValue);
+            ScheduleLogout(token.Expires);
             return new ClaimsPrincipal(new ClaimsIdentity(token.Claims, "serverauth"));
+        }
+
+        private void ScheduleLogout(DateTime tokenExpires)
+        {
+            Console.WriteLine($"Scheduling logout at {tokenExpires}");
+
+            JobManager.AddJob(async () => await Logout(), s => s.WithName(Jobs.Logout).ToRunOnceAt(tokenExpires));
+        }
+
+        public async Task Login(string token)
+        {
+            Console.WriteLine("Logging in");
+
+            await localStorage.SetItemAsync(Keys.AuthToken, token);
+            await UpdateUser();
+        }
+
+        public async Task Logout()
+        {
+            JobManager.RemoveJob(Jobs.Logout);
+
+            Console.WriteLine("Logging out");
+
+            await localStorage.RemoveItemAsync(Keys.AuthToken);
+            await UpdateUser();
         }
 
         private JwtToken ParseJwtToken(string tokenValue)

@@ -48,16 +48,13 @@ namespace BlazorRevealed.Client.Services
                 return loginResult;
             }
 
-            await localStorage.SetItemAsync(Keys.AuthToken, loginResult.Token);
-            await authenticationStateProvider.UpdateUser();
-
+            await authenticationStateProvider.Login(loginResult.Token);
             return loginResult;
         }
 
         public async Task Logout()
         {
-            await localStorage.RemoveItemAsync(Keys.AuthToken);
-            await authenticationStateProvider.UpdateUser();
+            await authenticationStateProvider.Logout();
         }
 
         public async Task Update()
