@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\BlazorRevealed.Data\BlazorRevealed.Data.csproj" />
     <ProjectReference Include="..\BlazorRevealed.Shared\BlazorRevealed.Shared.csproj" />

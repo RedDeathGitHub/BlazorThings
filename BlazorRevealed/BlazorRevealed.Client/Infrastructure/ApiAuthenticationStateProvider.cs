@@ -25,7 +25,7 @@ namespace BlazorRevealed.Client.Infrastructure
             this.apiClient = apiClient;
             this.localStorage = localStorage;
         }
-        
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var user = await GetUser();
@@ -142,11 +142,5 @@ namespace BlazorRevealed.Client.Infrastructure
             }
             return Convert.FromBase64String(base64);
         }
-    }
-
-    class JwtToken
-    {
-        public List<Claim> Claims { get; set; } = new List<Claim>();
-        public DateTime Expires { get; set; }
     }
 }
