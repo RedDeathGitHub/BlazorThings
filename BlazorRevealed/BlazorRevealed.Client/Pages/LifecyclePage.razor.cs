@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BlazorRevealed.Client.Base;
 using BlazorRevealed.Client.Components.Interactive;
 using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Services;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class LifecyclePageBase : ComponentBase, IDisposable
+    public class LifecyclePageBase : Page, IDisposable
     {
         protected int Index { get; set; } = 1;
         protected string Text { get; set; } = "Initial value\n";

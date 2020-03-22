@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorRevealed.Client.Base
 {
-    public class Component : ComponentBase
+    public abstract class Component : ComponentBase
     {
         [CascadingParameter]
         public Task<AuthenticationState> AuthenticationStateTask { get; set; }

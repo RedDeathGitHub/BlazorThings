@@ -1,10 +1,11 @@
 ﻿using System;
+using BlazorRevealed.Client.Base;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
 namespace BlazorRevealed.Client.Shared
 {
-    public class NavMenuItemBase : ComponentBase
+    public class NavMenuItemBase : Component
     {
         [Parameter]
         public string Href { get; set; }

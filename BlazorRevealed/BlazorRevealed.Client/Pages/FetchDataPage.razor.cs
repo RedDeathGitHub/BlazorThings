@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class FetchDataPageBase : Component
+    public class FetchDataPageBase : Page
     {
         public int Claps => State.FetchDataPage.Claps;
 

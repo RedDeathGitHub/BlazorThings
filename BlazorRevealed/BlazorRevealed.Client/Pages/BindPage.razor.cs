@@ -1,14 +1,12 @@
 ﻿using System;
+using BlazorRevealed.Client.Base;
 using BlazorRevealed.Client.Data.State;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class BindPageBase : ComponentBase
+    public class BindPageBase : Page
     {
-        [Inject]
-        public State State { get; set; }
-
         public int Year { get; set; } = 2000;
 
         public string Message { get; set; }

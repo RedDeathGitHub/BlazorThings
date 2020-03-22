@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BlazorRevealed.Client.Base;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorRevealed.Client.Components.Interactive
 {
-    public class PasswordBase : ComponentBase
+    public class PasswordBase : Component
     {
         protected bool ShowPassword;
 

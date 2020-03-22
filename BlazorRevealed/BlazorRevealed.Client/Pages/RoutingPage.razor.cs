@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorRevealed.Client.Base;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class RoutingPageBase : ComponentBase
+    public class RoutingPageBase : Page
     {
         [Parameter]
         public int Parameter { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BlazorRevealed.Client.Base;
 using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Services;
 using BlazorRevealed.Client.Services.I;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class NotificationPageBase : ComponentBase, IDisposable
+    public class NotificationPageBase : Page, IDisposable
     {
         [Inject]
         public INotificationService NotificationService { get; set; }

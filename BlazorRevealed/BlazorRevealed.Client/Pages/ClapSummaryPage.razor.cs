@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BlazorRevealed.Client.Base;
 using BlazorRevealed.Client.Data;
 using BlazorRevealed.Client.Data.Models;
 using BlazorRevealed.Client.Data.State;
@@ -9,11 +10,8 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class ClapSummaryPageBase : ComponentBase
+    public class ClapSummaryPageBase : Page
     {
-        [Inject]
-        protected State State { get; set; }
-
         [Inject]
         public ITestService TestService { get; set; }
 

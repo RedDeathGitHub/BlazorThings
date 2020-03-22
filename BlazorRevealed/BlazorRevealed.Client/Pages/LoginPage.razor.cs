@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using BlazorRevealed.Client.Base;
 using BlazorRevealed.Client.Services.I;
 using BlazorRevealed.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class LoginPageBase : ComponentBase
+    public class LoginPageBase : Page
     {
         [Inject]
         protected IAuthService AuthService { get; set; }

@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorRevealed.Client.Base;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Components
 {
-    public class YearControlBase : ComponentBase
+    public class YearControlBase : Component
     {
         [Parameter]
         public int Year { get; set; }

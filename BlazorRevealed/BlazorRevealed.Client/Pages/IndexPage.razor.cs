@@ -1,13 +1,11 @@
-﻿using BlazorRevealed.Client.Data.State;
+﻿using BlazorRevealed.Client.Base;
+using BlazorRevealed.Client.Data.State;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class IndexPageBase : ComponentBase
+    public class IndexPageBase : Page
     {
-        [Inject]
-        public State State { get; set; }
-
         public int Claps => State.IndexPage.Claps;
 
         public void AddClapHandler()

@@ -1,14 +1,12 @@
 ﻿using System.Threading.Tasks;
+using BlazorRevealed.Client.Base;
 using BlazorRevealed.Client.Data.State;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class CounterPageBase : ComponentBase
+    public class CounterPageBase : Page
     {
-        [Inject]
-        public State State { get; set; }
-
         public int Claps => State.CounterPage.Claps;
 
         public async Task AddClapHandler()

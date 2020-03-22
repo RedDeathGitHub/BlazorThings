@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using BlazorRevealed.Client.Base;
 using BlazorRevealed.Client.Components.Interactive.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorRevealed.Client.Components.Interactive
 {
-    public class TabBase : ComponentBase, ITab
+    public class TabBase : Component, ITab
     {
         [CascadingParameter]
         public ITabContainer Container { get; set; }

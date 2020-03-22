@@ -1,9 +1,10 @@
-﻿using BlazorRevealed.Client.Components.Interactive.Interfaces;
+﻿using BlazorRevealed.Client.Base;
+using BlazorRevealed.Client.Components.Interactive.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Components.Interactive
 {
-    public class TabSetBase : ComponentBase, ITabContainer
+    public class TabSetBase : Component, ITabContainer
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }
