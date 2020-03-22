@@ -17,7 +17,7 @@ namespace BlazorRevealed.Client.Data.Models
         public string Description { get; set; }
 
         [Required]
-        [ValidateComplexType]
+        //[ValidateComplexType]
         public Address Address { get; set; }
 
         [Range(1, 200)]

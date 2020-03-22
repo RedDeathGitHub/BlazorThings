@@ -1,37 +1,55 @@
 ﻿@page "/fetch-data"
+@using BlazorRevealed.Shared.Authorization
 @inherits FetchDataPageBase
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (Forecasts == null)
-{
-    <p><em>Loading...222</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in Forecasts)
-            {
+<AuthorizeView Policy="@Policies.HasWeather">
+    <Authorized>
+        @if (Forecasts == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <th>Date</th>
+                    <th>Temp. (C)</th>
+                    <th>Temp. (F)</th>
+                    <th>Summary</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+                </thead>
+                <tbody>
+                @foreach (var forecast in Forecasts)
+                {
+                    <tr>
+                        <td>@forecast.Date.ToShortDateString()</td>
+                        <td>@forecast.TemperatureC</td>
+                        <td>@forecast.TemperatureF</td>
+                        <td>@forecast.Summary</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>Please log in to see the weather</p>
+        <p><a href="Login">Log in</a></p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Policy="@Policies.HasQuotes">
+    <Authorized>
+        <p>Under construction...</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>Please buy our premium Quotes feature so see the coll quotes!</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 <ClapCounter Claps="@Claps" AddClap="@AddClapHandler" />

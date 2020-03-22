@@ -1,5 +1,6 @@
 using System.Text;
 using BlazorRevealed.Api.Data;
+using BlazorRevealed.Shared.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +47,12 @@ namespace BlazorRevealed.Api
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]))
                     };
                 });
+
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy(Policies.HasWeather, Policies.WeatherPolicy());
+                config.AddPolicy(Policies.HasQuotes, Policies.QuotesPolicy());
+            });
 
             services.AddCors(options =>
             {

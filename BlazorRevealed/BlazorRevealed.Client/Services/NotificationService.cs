@@ -9,7 +9,7 @@ namespace BlazorRevealed.Client.Services
 {
     public class NotificationService : INotificationService
     {
-        private Timer timer;
+        private Timer? timer;
 
         public void Start(int delay, int period)
         {
@@ -33,10 +33,10 @@ namespace BlazorRevealed.Client.Services
         {
             if (NotificationReady != null)
             {
-                await NotificationReady?.Invoke(key, value);
+                await NotificationReady.Invoke(key, value);
             }
         }
 
-        public event Func<string, int, Task> NotificationReady;
+        public event Func<string, int, Task>? NotificationReady;
     }
 }

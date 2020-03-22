@@ -2,9 +2,13 @@
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Blazored.LocalStorage;
 using BlazorRevealed.Client.Infrastructure;
-using Microsoft.AspNetCore.Blazor.Hosting;
+using BlazorRevealed.Shared.Authorization;
+using FluentScheduler;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+
 
 namespace BlazorRevealed.Client
 {
@@ -12,17 +16,35 @@ namespace BlazorRevealed.Client
     {
         public static async Task Main(string[] args)
         {
-            IWebAssemblyHost host = CreateHostBuilder(args).Build();
+            WebAssemblyHost host = CreateHostBuilder(args).Build();
             await Initialize(host);
-            host.Run();
+            await host.RunAsync();
         }
-        
-        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory(b => b.RegisterModule<ClientModule>()))
-                .UseBlazorStartup<Startup>();
 
-        public static async Task Initialize(IWebAssemblyHost host)
+        public static WebAssemblyHostBuilder CreateHostBuilder(string[] args)
+        {
+            var builder =  WebAssemblyHostBuilder.CreateDefault();
+            builder.RootComponents.Add<App>("app");
+
+            var factory = new AutofacServiceProviderFactory(b => b.RegisterModule<ClientModule>());
+            builder.ConfigureContainer(factory);
+            
+            var services = builder.Services;
+            services.AddOptions();
+            services.AddBlazoredLocalStorage();
+
+            services.AddAuthorizationCore(config =>
+            {
+                config.AddPolicy(Policies.HasWeather, Policies.WeatherPolicy());
+                config.AddPolicy(Policies.HasQuotes, Policies.QuotesPolicy());
+            });
+
+            JobManager.UseUtcTime();
+
+            return builder;
+        }
+
+        public static async Task Initialize(WebAssemblyHost host)
         {
             Console.WriteLine("Start Initialize");
             var rootInitializer = host.Services.GetService<RootInitializer>();

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using BlazorRevealed.Shared.Authorization;
 using BlazorRevealed.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,10 +27,12 @@ namespace BlazorRevealed.Api.Controllers
             this.logger = logger;
         }
 
-        [Authorize]
+        [Authorize(Policy = Policies.HasWeather)]
         [HttpGet("weather")]
         public IEnumerable<WeatherForecast> GetWeather()
         {
+            Thread.Sleep(1000);
+
             var rng = new Random();
             var data = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

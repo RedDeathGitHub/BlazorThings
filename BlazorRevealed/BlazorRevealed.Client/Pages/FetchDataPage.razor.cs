@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using BlazorRevealed.Client.Base;
 using BlazorRevealed.Client.Data.State;
-using BlazorRevealed.Client.Services;
 using BlazorRevealed.Client.Services.I;
 using BlazorRevealed.Client.Utility.HttpClients;
+using BlazorRevealed.Shared.Authorization;
 using BlazorRevealed.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorRevealed.Client.Pages
 {
-    public class FetchDataPageBase : ComponentBase
+    public class FetchDataPageBase : Component
     {
-        [Inject]
-        public State State { get; set; }
         public int Claps => State.FetchDataPage.Claps;
 
         [Inject]
@@ -25,7 +24,13 @@ namespace BlazorRevealed.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Forecasts = await ApiClient.GetJsonAsync<WeatherForecast[]>("weather");
+            var user = await GetUser();
+
+            if (user.HasWeather())
+            {
+                Forecasts = await ApiClient.GetJsonAsync<WeatherForecast[]>("weather");
+            }
+
             TestService.SaveData(DateTime.Now);
         }
 
