@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using BlazorRevealed.Client.Base;
-using BlazorRevealed.Client.Data.State;
 using BlazorRevealed.Client.Services.I;
 using BlazorRevealed.Client.Utility.HttpClients;
 using BlazorRevealed.Shared.Authorization;
@@ -17,16 +15,17 @@ namespace BlazorRevealed.Client.Pages
 
         [Inject]
         public ApiClient ApiClient { get; set; }
-        public WeatherForecast[] Forecasts { get; set; }
 
         [Inject]
         public ITestService TestService { get; set; }
 
+        public WeatherForecast[] Forecasts { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            var user = await GetUser();
+            var hasWeather = await CheckPolicy(Policies.HasWeather);
 
-            if (user.HasWeather())
+            if (hasWeather)
             {
                 Forecasts = await ApiClient.GetJsonAsync<WeatherForecast[]>("weather");
             }
